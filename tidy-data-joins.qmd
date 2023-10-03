@@ -134,5 +134,11 @@ birds_obs_subset <- birds_obs_subset %>%
   mutate(observer = ifelse(observer == "Josh Burns", "J. Burns", observer))
 ```
 
+# Bonus: lubridate package
+
+```{r}
+
+```
+
 
 
