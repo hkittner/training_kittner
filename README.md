@@ -1,4 +1,4 @@
 # training_kittner
 
-#Purpose
+# Purpose
 Training materials for October coreR course at NCEAS
