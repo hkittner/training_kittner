@@ -1,0 +1,62 @@
+---
+title: "Intro to Quarto"
+format: html
+bibliography: references.bib
+execute: 
+  echo: false
+---
+
+
+# Header 1
+
+[NCEAS_lesson](https://learning.nceas.ucsb.edu/2023-10-coreR/session_04.html)
+
+I'm going to **bold this text** and *italicize this text*
+
+## Header 2
+
+List
+
+-   thing 1
+    -   thing 1.1
+-   thing 2
+    -   thing 2.1
+    -   thing 2.2
+
+### Header 3
+
+#### Header 4 - visual pane
+
+This is a **very** important fact
+
+inserting citations: click insert \> citation or ctrl+shift+F8
+
+look into csl files later for citation formatting
+
+[@base]
+
+[@oke2020]
+
+inserting tables: difficult to do in source editor
+
+| Col1    | Col2   | Col3 | Col4 |
+|---------|--------|------|------|
+| thing 1 | blah 1 |      |      |
+| thing 2 | blah 2 |      |      |
+|         |        |      |      |
+
+## Code Chunks
+
+```{r}
+#| echo: true
+
+x <- 4*8
+
+height_vec <- c(5.2, 6.0, 5.7)
+
+x
+
+height_vec
+
+```
+
