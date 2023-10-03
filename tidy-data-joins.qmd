@@ -114,9 +114,9 @@ names(bird_observations)
 ## Create a subset with all bird_observations observations and join all others tables with it
 ```{r}
 birds_obs_subset <- bird_observations %>% 
-  left_join(y = taxalist, by = "species_id") %>% 
-  left_join(y = sites, by = "site_id") %>% 
-  left_join(y = surveys, by = "survey_id") %>%
+  full_join(y = taxalist, by = "species_id") %>% 
+  full_join(y = sites, by = "site_id") %>% 
+  full_join(y = surveys, by = c("survey_id", "site_id"))
 
 head(birds_obs_subset)
 ```
