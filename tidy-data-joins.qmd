@@ -1,0 +1,138 @@
+---
+title: "R Practice: Tidy Data and Joins"
+format: html
+---
+# Exercise: Practice Joins
+## Setup
+
+```{r}
+library(readr)
+library(dplyr)
+library(lubridate)
+```
+
+## Load data
+
+```{r}
+#| warning: false
+#| message: false
+
+bird_observations <- read_csv("data/52_pp52_birds_1.csv")
+
+sites <- read_csv("data/52_pp52_sites_1.csv")
+
+surveys <- read_csv("data/52_pp52_surveys_1.csv")
+
+taxalist <- read_csv("data/52_pp52_taxalist_1.csv")
+```
+
+
+## Explore the data 
+
+```{r}
+#| echo: false
+#| eval: false
+
+dim(bird_observations)
+
+summary(bird_observations)
+
+names(bird_observations)
+
+unique(bird_observations$species_id)
+```
+
+```{r}
+head(bird_observations) # primary key is the compound of survey_id, site_id and species_id. foreign key is species_id
+head(taxalist) #primary key is species_id
+```
+
+## Subset the data to include only observations with species_id BHCO and RWBL, and from sites LI-W and NU-C
+
+```{r}
+birds_subset <- bird_observations %>% 
+  filter(species_id %in% c("BHCO", "RWBL")) %>% 
+  filter(site_id %in% c("LI-W", "NU-C"))
+
+unique(birds_subset$species_id)
+unique(birds_subset$site_id)
+
+head(birds_subset)
+```
+## Use `left_join()` to merge birds_subset with tables sites and taxalist
+```{r}
+# the left_join should include available information from the subsetted sites only, and all information about sites not in birds_subset will not be included in the merged table
+birds_left <- birds_subset %>% 
+  left_join(y = sites, by = "site_id")
+
+head(birds_left)
+unique(birds_left$site_id)
+```
+
+## Use `full_join()` to merge birds_subset and sites tables
+```{r}
+# I expect to see an additional row for each side that wasn't included in birds_subset in which the birds_subset columns are 'na'
+
+birds_full <- birds_subset %>% 
+  full_join(y = sites, by = "site_id")
+
+head(birds_full)
+unique(birds_full$site_id)
+```
+
+## Use `inner_join()` to merge birds_subset and taxalist
+```{r}
+# This will include all taxa information only for the two species included in birds_subset
+
+birds_inner <- birds_subset %>% 
+  inner_join(y = taxalist, by = "species_id")
+
+head(birds_inner)
+unique(birds_inner$species_id)
+
+# If left_join was used instead, the same output would be achieved
+
+birds_inner_left <- birds_subset %>% 
+  left_join(y = taxalist, by = "species_id")
+
+head(birds_inner_left)
+
+# this is the case because the left join keeps all the species_id from the x table, and in this case the y table contains all of those values as well, so nothing is excluded. If there were species_id's that were unique to the birds_subset table then this wouldn't have been true
+```
+
+# Exercise: Practice Wrangling and Joining Data
+
+## Wrangle bird_observations data and merge the data with all other tables
+
+```{r}
+bird_observations <- bird_observations %>% 
+  rename(bird_obs_notes = notes)
+
+names(bird_observations)
+```
+
+## Create a subset with all bird_observations observations and join all others tables with it
+```{r}
+birds_obs_subset <- bird_observations %>% 
+  left_join(y = taxalist, by = "species_id") %>% 
+  left_join(y = sites, by = "site_id") %>% 
+  left_join(y = surveys, by = "survey_id") %>%
+
+head(birds_obs_subset)
+```
+Subset columns
+```{r}
+birds_obs_subset <- birds_obs_subset %>% 
+  select(survey_date, common_name, park_name, bird_count, observer)
+
+head(birds_obs_subset)
+```
+
+## Explore observer data, and make sure they're all in the same format
+```{r}
+birds_obs_subset <- birds_obs_subset %>% 
+  mutate(observer = ifelse(observer == "Josh Burns", "J. Burns", observer))
+```
+
+
+
