@@ -11,5 +11,5 @@ format: html
 
 ## Practice Sessions
 - Joins, cleaning, and wrangling
-- Data Viz
+- [Data Viz](docs/data-viz.html)
 - Writing Functions
