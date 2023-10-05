@@ -1,0 +1,119 @@
+---
+title: "R Practice: Functions"
+format: html
+---
+
+## Practice Functions
+
+Create a function that doubles input values
+```{r}
+double_it <- function(value) {
+  
+  value2 <- value*2
+  return(value2)
+  
+}
+
+the_values <- c(1:5)
+
+the_doubled_values <- double_it(the_values)
+
+# Test to see if the output is what I expected
+the_doubled_values == the_values*2
+```
+
+Write a function to accounce your age
+```{r}
+exclaim_age <- function(age) {
+  
+  print(paste("I am", age, "years old!"))
+  
+}
+
+exclaim_age(23)
+```
+
+find_max() function
+```{r}
+# "find_max() function" #
+find_max <- function(value_1, value_2) {
+    
+    if (value_1 > value_2) {
+        return(value_1)
+    }
+    else if (value_2 > value_1) {
+        return(value_2)
+    }
+}
+
+find_max(4, 2)
+
+find_max(7, 19)
+
+find_max(7, 19) + 1 # also works in expression
+```
+
+4a. adding error and warning messages
+```{r}
+find_max(4, 2, 5)
+
+# error message seems sufficient
+```
+
+4b. 
+```{r}
+find_max(4,4)
+# no value is returned, need to add something to fix it
+
+find_max <- function(value_1, value_2) {
+  
+    if (value_1 == value_2) {
+      stop("Values must be different from each other.")
+    }
+    
+    if (value_1 > value_2) {
+        return(value_1)
+    }
+    else if (value_2 > value_1) {
+        return(value_2)
+    }
+}
+
+find_max(4, 4)
+```
+
+```{r}
+find_max(4, "cow")
+```
+
+
+```{r}
+find_max <- function(value_1, value_2) {
+  
+    if (is.numeric(value_1) != TRUE | is.numeric(value_2) != TRUE) {
+        stop("Values must be numeric.")
+    }
+  
+    if (value_1 == value_2) {
+      stop("Values must be different from each other.")
+    }
+    
+    if (value_1 > value_2) {
+        return(value_1)
+    }
+    else if (value_2 > value_1) {
+        return(value_2)
+    }
+}
+
+find_max(4, "cow")
+find_max("cow", 4)
+```
+
+
+
+
+
+
+
+
